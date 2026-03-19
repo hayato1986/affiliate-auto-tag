@@ -3,7 +3,7 @@ import { defineConfig } from "wxt";
 export default defineConfig({
   srcDir: "src",
   manifest: {
-    name: "アフィリエイトID自動付与",
+    name: "Amazon,楽天などアフィリエイトID自動付与",
     description: "Amazon・楽天・A8.netのURLにアフィリエイトIDを自動付与します",
     version: "1.1.0",
     default_locale: "ja",
