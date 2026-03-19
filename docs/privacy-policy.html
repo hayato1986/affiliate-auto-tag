@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プライバシーポリシー — アフィリエイトID自動付与</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --fg-muted: #555;
+      --accent: #ff9800;
+      --border: #e0e0e0;
+      --card-bg: #f9f9f9;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1e1e1e;
+        --fg: #e0e0e0;
+        --fg-muted: #999;
+        --accent: #ffb74d;
+        --border: #333;
+        --card-bg: #2a2a2a;
+      }
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'Segoe UI', sans-serif;
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--fg);
+      background: var(--bg);
+      padding: 0 16px;
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 0 80px;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .app-name {
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .updated {
+      color: var(--fg-muted);
+      font-size: 13px;
+      margin-bottom: 40px;
+    }
+    h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 36px;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    p {
+      margin-bottom: 12px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 20px;
+      font-size: 14px;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+    }
+    th {
+      background: var(--card-bg);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    code {
+      background: var(--card-bg);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 13px;
+    }
+    .highlight-box {
+      background: var(--card-bg);
+      border-left: 3px solid var(--accent);
+      padding: 16px 20px;
+      border-radius: 0 6px 6px 0;
+      margin: 16px 0;
+    }
+    .highlight-box p {
+      margin-bottom: 0;
+    }
+    ul {
+      padding-left: 24px;
+      margin-bottom: 12px;
+    }
+    li {
+      margin-bottom: 4px;
+    }
+    footer {
+      margin-top: 48px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--fg-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p class="app-name">アフィリエイトID自動付与</p>
+    <h1>プライバシーポリシー</h1>
+    <p class="updated">最終更新日: 2026年3月19日</p>
+
+    <div class="highlight-box">
+      <p>本拡張機能は、ユーザーの個人情報や閲覧データを<strong>一切収集しません</strong>。外部サーバーへの通信も<strong>一切行いません</strong>。</p>
+    </div>
+
+    <h2>本拡張機能について</h2>
+    <p>「アフィリエイトID自動付与」（以下「本拡張機能」）は、Amazon.co.jp を閲覧する際に、ユーザーが設定したアソシエイトIDをURLの <code>tag</code> パラメータに自動付与するChrome拡張機能です。</p>
+
+    <h2>データの収集</h2>
+    <p>本拡張機能は、以下を含むいかなるユーザーデータも収集・送信しません:</p>
+    <ul>
+      <li>閲覧履歴・アクセスしたURL</li>
+      <li>個人を特定できる情報</li>
+      <li>Cookie・トラッキング情報</li>
+      <li>フォーム入力内容</li>
+    </ul>
+
+    <h2>データの保存</h2>
+    <p>本拡張機能が保存するデータは以下の2種類のみです:</p>
+    <table>
+      <tr>
+        <th>データ</th>
+        <th>内容</th>
+        <th>保存先</th>
+      </tr>
+      <tr>
+        <td>アソシエイトID</td>
+        <td>ユーザーが設定画面で入力したID</td>
+        <td><code>chrome.storage.sync</code></td>
+      </tr>
+      <tr>
+        <td>有効/無効設定</td>
+        <td>機能のON/OFF状態</td>
+        <td><code>chrome.storage.sync</code></td>
+      </tr>
+    </table>
+    <p>これらのデータはChromeブラウザのローカル同期ストレージにのみ保存されます。Googleアカウントの同期が有効な場合、同じアカウントでログインしている他のChromeブラウザと設定が自動同期されます。</p>
+
+    <h2>外部通信</h2>
+    <p>本拡張機能は外部サーバーへの通信を一切行いません。アナリティクス、テレメトリ、クラッシュレポート等の送信機能は含まれていません。すべての処理はブラウザ内で完結します。</p>
+
+    <h2>URL書き換えの仕組み</h2>
+    <p>本拡張機能は Chrome の <code>declarativeNetRequest</code> API を使用して、Amazon.co.jp へのリクエスト時にURLのクエリパラメータを書き換えます。この処理はブラウザのネットワークレイヤーで宣言的に行われ、JavaScriptからページ内容にアクセスすることはありません。</p>
+
+    <h2>権限の使用目的</h2>
+    <table>
+      <tr>
+        <th>権限</th>
+        <th>使用目的</th>
+      </tr>
+      <tr>
+        <td><code>declarativeNetRequest</code></td>
+        <td>Amazon.co.jp へのリクエストURLにアフィリエイトIDパラメータを付与するため</td>
+      </tr>
+      <tr>
+        <td><code>storage</code></td>
+        <td>ユーザーが設定したアソシエイトIDとON/OFF状態を保存・同期するため</td>
+      </tr>
+      <tr>
+        <td><code>activeTab</code></td>
+        <td>ポップアップUIで現在のタブがAmazon.co.jpかどうかを表示するため</td>
+      </tr>
+      <tr>
+        <td><code>host_permissions:<br>*://*.amazon.co.jp/*</code></td>
+        <td>Amazon.co.jp のURLのみを書き換え対象とするため（他サイトには影響しません）</td>
+      </tr>
+    </table>
+
+    <h2>第三者への提供</h2>
+    <p>本拡張機能はユーザーのデータを第三者に提供、販売、共有、転送することはありません。</p>
+
+    <h2>お子様のプライバシー</h2>
+    <p>本拡張機能は13歳未満のお子様を対象としたものではありません。13歳未満のお子様から意図的に個人情報を収集することはありません。</p>
+
+    <h2>ポリシーの変更</h2>
+    <p>本プライバシーポリシーは、機能の追加や法令の変更に伴い更新される場合があります。重要な変更がある場合は、拡張機能のアップデートに合わせてお知らせします。</p>
+
+    <h2>お問い合わせ</h2>
+    <p>本プライバシーポリシーに関するご質問がある場合は、GitHubリポジトリの Issues よりお問い合わせください。</p>
+
+    <footer>
+      <p>変更履歴: 2026年3月19日 — 初版公開</p>
+    </footer>
+  </div>
+</body>
+</html>

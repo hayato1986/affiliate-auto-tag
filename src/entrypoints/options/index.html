@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>アフィリエイトID自動付与 - 設定</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1>アフィリエイトID自動付与</h1>
+        <p class="subtitle">設定</p>
+      </header>
+
+      <main>
+        <!-- Amazon.co.jp セクション -->
+        <section class="card">
+          <div class="card-header">
+            <h2>Amazon.co.jp</h2>
+            <button
+              id="toggle-amazon"
+              class="toggle"
+              role="switch"
+              aria-checked="false"
+              aria-label="Amazon.co.jp の有効/無効"
+            >
+              <span class="toggle-thumb"></span>
+            </button>
+          </div>
+
+          <div id="amazon-settings" class="card-body">
+            <label for="affiliate-id" class="field-label"
+              >アソシエイトID</label
+            >
+            <input
+              type="text"
+              id="affiliate-id"
+              class="input"
+              placeholder="例: mytag-22"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <div id="validation-msg" class="validation-msg"></div>
+          </div>
+        </section>
+
+        <!-- 動作テスト -->
+        <section class="card">
+          <h2>動作テスト</h2>
+          <p class="help-text">
+            設定後、以下のリンクをクリックしてURLに <code>tag=</code> パラメータが付与されることを確認してください。
+          </p>
+          <a
+            id="test-link"
+            href="https://www.amazon.co.jp/"
+            target="_blank"
+            rel="noopener"
+            class="test-link"
+            >Amazon.co.jp で確認する →</a
+          >
+        </section>
+
+        <!-- プライバシー情報 -->
+        <section class="card">
+          <h2>プライバシー</h2>
+          <ul class="privacy-list">
+            <li>閲覧履歴は収集しません</li>
+            <li>外部サーバーへの通信は行いません</li>
+            <li>設定はChromeの同期ストレージにのみ保存されます</li>
+          </ul>
+        </section>
+      </main>
+
+      <div id="save-feedback" class="save-feedback hidden" aria-live="polite">
+        保存しました
+      </div>
+      <div id="status-announce" class="sr-only" aria-live="polite"></div>
+    </div>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

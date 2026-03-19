@@ -1,0 +1,21 @@
+{
+  "name": "affiliate-auto-tag",
+  "version": "1.0.0",
+  "description": "アフィリエイトID自動付与 Chrome拡張機能",
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "build": "wxt build",
+    "zip": "wxt zip",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@types/chrome": "^0.1.38",
+    "typescript": "^5.9.3",
+    "wxt": "^0.20.20"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.0"
+  }
+}

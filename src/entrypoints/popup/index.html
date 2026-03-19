@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- 未設定状態（オンボーディング） -->
+      <div id="state-setup" class="state hidden">
+        <div class="status-icon warning">!</div>
+        <p class="status-text">初期設定が必要です</p>
+        <p class="status-sub">アソシエイトIDを設定してください</p>
+        <button id="btn-open-settings" class="btn-primary">今すぐ設定する →</button>
+      </div>
+
+      <!-- 通常状態 -->
+      <div id="state-active" class="state hidden">
+        <div class="toggle-row">
+          <span class="toggle-label">すべてのサイトで有効</span>
+          <button
+            id="toggle-global"
+            class="toggle"
+            role="switch"
+            aria-checked="false"
+            aria-label="グローバル有効/無効"
+          >
+            <span class="toggle-thumb"></span>
+          </button>
+        </div>
+        <hr class="divider" />
+        <div id="current-tab-status" class="tab-status">
+          <span id="tab-status-icon" class="tab-icon">—</span>
+          <span id="tab-status-text" class="tab-text">確認中...</span>
+        </div>
+        <div class="footer-row">
+          <button id="btn-settings" class="btn-link">⚙ 設定</button>
+        </div>
+      </div>
+
+      <!-- 無効状態 -->
+      <div id="state-disabled" class="state hidden">
+        <div class="status-icon muted">—</div>
+        <p class="status-text muted-text">すべてのサイトで無効です</p>
+        <div class="toggle-row">
+          <span class="toggle-label">有効にする</span>
+          <button
+            id="toggle-global-disabled"
+            class="toggle"
+            role="switch"
+            aria-checked="false"
+            aria-label="グローバル有効/無効"
+          >
+            <span class="toggle-thumb"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="status-announce" class="sr-only" aria-live="polite"></div>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

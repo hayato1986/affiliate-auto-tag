@@ -1,0 +1,8 @@
+{
+  "extName": {
+    "message": "アフィリエイトID自動付与"
+  },
+  "extDescription": {
+    "message": "Amazon.co.jpのURLにアフィリエイトIDを自動付与します"
+  }
+}
