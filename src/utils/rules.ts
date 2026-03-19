@@ -1,48 +1,57 @@
-import { RULE_IDS } from "./types";
+import type { SiteConfig } from "./types";
 
 type DNRRule = chrome.declarativeNetRequest.Rule;
 
 /**
- * Amazon.co.jp 用の declarativeNetRequest ルールを生成する
+ * サイト定義からdeclarativeNetRequestルールを生成する
  *
  * 2ルール構成で無限ループを防止:
- * 1. allowルール (priority: 2): tag= が既にあるURLは何もしない
- * 2. redirectルール (priority: 1): amazon.co.jp へのアクセスに tag を付与
- *
- * allowルールが高優先度のため、tag付与済みURLではredirectが発火しない
+ * 1. allowルール (priority: 2): パラメータが既にあるURLは何もしない
+ * 2. redirectルール (priority: 1): 対象ドメインにパラメータを付与
  */
-export function generateAmazonJpRules(affiliateId: string): DNRRule[] {
+export function generateSiteRules(
+  site: SiteConfig,
+  affiliateId: string,
+): DNRRule[] {
+  const escapedDomains = site.domains
+    .map((d) => d.replace(/\./g, "\\."))
+    .join("|");
+  const domainPattern =
+    site.domains.length === 1
+      ? `\\.${escapedDomains}/`
+      : `\\.(${escapedDomains})/`;
+
   return [
-    // ルール1: tagが既にあるURLは許可（リダイレクトをスキップ）
+    // allowルール: パラメータが既にあるURLは許可（リダイレクトをスキップ）
     {
-      id: RULE_IDS.AMAZON_JP_ALLOW,
+      id: site.ruleIds.allow,
       priority: 2,
       action: {
         type: chrome.declarativeNetRequest.RuleActionType.ALLOW,
       },
       condition: {
-        regexFilter: "^https://.*\\.amazon\\.co\\.jp/.*[?&]tag=",
+        regexFilter: `^https://.*${domainPattern}.*[?&]${site.paramPattern}`,
         resourceTypes: [
           chrome.declarativeNetRequest.ResourceType.MAIN_FRAME,
         ],
       },
     },
-    // ルール2: amazon.co.jp へのアクセスに tag を付与
+    // redirectルール: 対象ドメインにパラメータを付与
     {
-      id: RULE_IDS.AMAZON_JP_REDIRECT,
+      id: site.ruleIds.redirect,
       priority: 1,
       action: {
         type: chrome.declarativeNetRequest.RuleActionType.REDIRECT,
         redirect: {
           transform: {
             queryTransform: {
-              addOrReplaceParams: [{ key: "tag", value: affiliateId }],
+              addOrReplaceParams: [{ key: site.paramKey, value: affiliateId }],
             },
           },
         },
       },
       condition: {
-        requestDomains: ["amazon.co.jp"],
+        requestDomains: site.domains,
         resourceTypes: [
           chrome.declarativeNetRequest.ResourceType.MAIN_FRAME,
         ],

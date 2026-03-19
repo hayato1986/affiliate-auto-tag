@@ -221,7 +221,13 @@ h1 {
   font-size: 12px;
 }
 
-/* Test link */
+/* Test links */
+#test-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 .test-link {
   display: inline-block;
   color: var(--accent);

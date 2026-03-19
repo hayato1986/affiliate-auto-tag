@@ -4,11 +4,15 @@ export default defineConfig({
   srcDir: "src",
   manifest: {
     name: "アフィリエイトID自動付与",
-    description: "Amazon.co.jpのURLにアフィリエイトIDを自動付与します",
-    version: "1.0.0",
+    description: "Amazon・楽天・A8.netのURLにアフィリエイトIDを自動付与します",
+    version: "1.1.0",
     default_locale: "ja",
     permissions: ["declarativeNetRequest", "storage", "activeTab"],
-    host_permissions: ["*://*.amazon.co.jp/*"],
+    host_permissions: [
+      "*://*.amazon.co.jp/*",
+      "*://*.rakuten.co.jp/*",
+      "*://*.a8.net/*",
+    ],
     content_security_policy: {
       extension_pages: "script-src 'self'; object-src 'none'",
     },

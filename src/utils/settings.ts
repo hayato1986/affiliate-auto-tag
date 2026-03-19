@@ -1,8 +1,24 @@
-import type { ExtensionSettings } from "./types";
-import { DEFAULT_SETTINGS } from "./types";
+import type { ExtensionSettings, SiteSettings } from "./types";
+import { DEFAULT_SETTINGS, SITE_CONFIGS } from "./types";
 import { validateAffiliateId } from "./validation";
 
 const STORAGE_KEY = "settings";
+
+function validateSiteSettings(
+  raw: Record<string, unknown> | undefined,
+): SiteSettings {
+  return {
+    enabled:
+      typeof raw?.enabled === "boolean"
+        ? raw.enabled
+        : false,
+    affiliateId:
+      typeof raw?.affiliateId === "string" &&
+      validateAffiliateId(raw.affiliateId)
+        ? raw.affiliateId
+        : "",
+  };
+}
 
 /**
  * chrome.storage.sync から設定を読み込む
@@ -16,26 +32,21 @@ export async function getSettings(): Promise<ExtensionSettings> {
     return { ...DEFAULT_SETTINGS };
   }
 
-  const amazonJp = stored.amazonJp as Record<string, unknown> | undefined;
-
-  // 再バリデーション（storage改ざん対策）
   const settings: ExtensionSettings = {
     version: 1,
     globalEnabled:
       typeof stored.globalEnabled === "boolean"
         ? stored.globalEnabled
         : DEFAULT_SETTINGS.globalEnabled,
-    amazonJp: {
-      enabled:
-        typeof amazonJp?.enabled === "boolean"
-          ? amazonJp.enabled
-          : DEFAULT_SETTINGS.amazonJp.enabled,
-      affiliateId:
-        typeof amazonJp?.affiliateId === "string" &&
-        validateAffiliateId(amazonJp.affiliateId)
-          ? amazonJp.affiliateId
-          : DEFAULT_SETTINGS.amazonJp.affiliateId,
-    },
+    amazonJp: validateSiteSettings(
+      stored.amazonJp as Record<string, unknown> | undefined,
+    ),
+    rakuten: validateSiteSettings(
+      stored.rakuten as Record<string, unknown> | undefined,
+    ),
+    a8net: validateSiteSettings(
+      stored.a8net as Record<string, unknown> | undefined,
+    ),
   };
 
   return settings;
@@ -48,4 +59,14 @@ export async function saveSettings(
   settings: ExtensionSettings,
 ): Promise<void> {
   await chrome.storage.sync.set({ [STORAGE_KEY]: settings });
+}
+
+/**
+ * いずれかのサイトが有効かつIDが設定済みかを返す
+ */
+export function hasAnySiteConfigured(settings: ExtensionSettings): boolean {
+  return SITE_CONFIGS.some((site) => {
+    const s = settings[site.key];
+    return s.enabled && s.affiliateId;
+  });
 }

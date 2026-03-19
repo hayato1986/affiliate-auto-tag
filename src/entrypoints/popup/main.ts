@@ -1,4 +1,5 @@
-import { getSettings, saveSettings } from "../../utils/settings";
+import { getSettings, saveSettings, hasAnySiteConfigured } from "../../utils/settings";
+import { SITE_CONFIGS } from "../../utils/types";
 import type { ExtensionSettings } from "../../utils/types";
 
 const $ = <T extends HTMLElement>(id: string): T =>
@@ -32,21 +33,17 @@ function render(settings: ExtensionSettings): void {
   const stateActive = $("state-active");
   const stateDisabled = $("state-disabled");
 
-  // 全て非表示にしてからターゲットを表示
   stateSetup.classList.add("hidden");
   stateActive.classList.add("hidden");
   stateDisabled.classList.add("hidden");
 
-  const hasId = settings.amazonJp.enabled && settings.amazonJp.affiliateId;
+  const configured = hasAnySiteConfigured(settings);
 
-  if (!hasId) {
-    // 未設定
+  if (!configured) {
     stateSetup.classList.remove("hidden");
   } else if (!settings.globalEnabled) {
-    // 無効状態
     stateDisabled.classList.remove("hidden");
   } else {
-    // 通常状態
     stateActive.classList.remove("hidden");
     const toggle = $<HTMLButtonElement>("toggle-global");
     toggle.setAttribute("aria-checked", String(settings.globalEnabled));
@@ -66,21 +63,29 @@ async function updateTabStatus(settings: ExtensionSettings): Promise<void> {
     });
     const url = tab?.url ?? "";
 
-    if (url.includes("amazon.co.jp")) {
-      if (url.includes("tag=")) {
-        icon.textContent = "✓";
-        icon.className = "tab-icon success";
-        text.textContent = "このページ: タグ付与済み";
-      } else {
-        icon.textContent = "⟳";
-        icon.className = "tab-icon pending";
-        text.textContent = "このページ: 次回遷移時に付与";
+    // 現在のタブがどのサイトに該当するかチェック
+    for (const site of SITE_CONFIGS) {
+      const s = settings[site.key];
+      if (!s.enabled || !s.affiliateId) continue;
+
+      const matchesDomain = site.domains.some((d) => url.includes(d));
+      if (matchesDomain) {
+        if (url.includes(`${site.paramKey}=`)) {
+          icon.textContent = "✓";
+          icon.className = "tab-icon success";
+          text.textContent = `${site.label}: タグ付与済み`;
+        } else {
+          icon.textContent = "⟳";
+          icon.className = "tab-icon pending";
+          text.textContent = `${site.label}: 次回遷移時に付与`;
+        }
+        return;
       }
-    } else {
-      icon.textContent = "—";
-      icon.className = "tab-icon neutral";
-      text.textContent = "対象外のサイトです";
     }
+
+    icon.textContent = "—";
+    icon.className = "tab-icon neutral";
+    text.textContent = "対象外のサイトです";
   } catch {
     icon.textContent = "—";
     icon.className = "tab-icon neutral";
@@ -94,7 +99,6 @@ function announce(message: string): void {
 }
 
 function bindEvents(settings: ExtensionSettings): void {
-  // 設定ボタン
   $("btn-open-settings")?.addEventListener("click", () => {
     chrome.runtime.openOptionsPage();
   });
@@ -102,7 +106,6 @@ function bindEvents(settings: ExtensionSettings): void {
     chrome.runtime.openOptionsPage();
   });
 
-  // グローバルトグル（通常状態）
   $("toggle-global")?.addEventListener("click", async () => {
     settings.globalEnabled = !settings.globalEnabled;
     await saveSettings(settings);
@@ -110,7 +113,6 @@ function bindEvents(settings: ExtensionSettings): void {
     render(settings);
   });
 
-  // グローバルトグル（無効状態）
   $("toggle-global-disabled")?.addEventListener("click", async () => {
     settings.globalEnabled = true;
     await saveSettings(settings);

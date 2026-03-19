@@ -14,51 +14,16 @@
       </header>
 
       <main>
-        <!-- Amazon.co.jp セクション -->
-        <section class="card">
-          <div class="card-header">
-            <h2>Amazon.co.jp</h2>
-            <button
-              id="toggle-amazon"
-              class="toggle"
-              role="switch"
-              aria-checked="false"
-              aria-label="Amazon.co.jp の有効/無効"
-            >
-              <span class="toggle-thumb"></span>
-            </button>
-          </div>
-
-          <div id="amazon-settings" class="card-body">
-            <label for="affiliate-id" class="field-label"
-              >アソシエイトID</label
-            >
-            <input
-              type="text"
-              id="affiliate-id"
-              class="input"
-              placeholder="例: mytag-22"
-              autocomplete="off"
-              spellcheck="false"
-            />
-            <div id="validation-msg" class="validation-msg"></div>
-          </div>
-        </section>
+        <!-- サイト設定セクション（JSで動的生成） -->
+        <div id="sites-container"></div>
 
         <!-- 動作テスト -->
         <section class="card">
           <h2>動作テスト</h2>
           <p class="help-text">
-            設定後、以下のリンクをクリックしてURLに <code>tag=</code> パラメータが付与されることを確認してください。
+            設定後、以下のリンクをクリックしてURLにパラメータが付与されることを確認してください。
           </p>
-          <a
-            id="test-link"
-            href="https://www.amazon.co.jp/"
-            target="_blank"
-            rel="noopener"
-            class="test-link"
-            >Amazon.co.jp で確認する →</a
-          >
+          <div id="test-links"></div>
         </section>
 
         <!-- プライバシー情報 -->
